@@ -1,0 +1,21 @@
+server: 
+  port: 8100  # <1>
+
+info:
+  name: ServiceDiscovery  # <2>
+
+spring:
+  application:
+    name: ServiceDiscovery  # <3>
+  output:
+    ansi:
+      enabled: ALWAYS  # <4>
+      
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8100/eureka/  # <5>
+      
+logging:
+  file: logfile/discovery.log  # <6>
+
