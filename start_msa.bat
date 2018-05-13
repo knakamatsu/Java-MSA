@@ -1,0 +1,1 @@
+gradle bootRun --parallel --max-workers=8
