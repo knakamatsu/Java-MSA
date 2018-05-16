@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package sample.jersey;
+package rest.config;
 
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-
+import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
-@Component
-@Path("/reverse")
-public class ReverseEndpoint {
+import rest.resources.Endpoint;
+import rest.resources.ReverseEndpoint;
 
-	@GET
-	public String reverse(@QueryParam("input") @NotNull String input) {
-		return new StringBuilder(input).reverse().toString();
+@Component
+public class JerseyConfig extends ResourceConfig {
+
+	public JerseyConfig() {
+		register(Endpoint.class);
+		register(ReverseEndpoint.class);
 	}
 
 }

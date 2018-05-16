@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package sample.jersey;
+package rest;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-@Component
-public class Service {
+@SpringBootApplication
+public class JerseyApplication extends SpringBootServletInitializer {
 
-	@Value("${message:World}")
-	private String msg;
-
-	public String message() {
-		return this.msg;
+	public static void main(String[] args) {
+		new JerseyApplication()
+				.configure(new SpringApplicationBuilder(JerseyApplication.class))
+				.run(args);
 	}
 
 }

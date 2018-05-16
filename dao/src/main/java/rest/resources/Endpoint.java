@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2017 the original author or authors.
+ * Copyright 2012-2016 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package sample.jersey;
+package rest.resources;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 
-@SpringBootApplication
-public class SampleJerseyApplication extends SpringBootServletInitializer {
+import org.springframework.stereotype.Component;
 
-	public static void main(String[] args) {
-		new SampleJerseyApplication()
-				.configure(new SpringApplicationBuilder(SampleJerseyApplication.class))
-				.run(args);
+import rest.services.Service;
+
+@Component
+@Path("/hello")
+public class Endpoint {
+
+	private final Service service;
+
+	public Endpoint(Service service) {
+		this.service = service;
+	}
+
+	@GET
+	public String message() {
+		return "Hello " + this.service.message();
 	}
 
 }
