@@ -1,20 +1,5 @@
 server:
-  port: 8210
-
+  servlet-path: /s
 spring:
-  application:
-    name: DaoService
-  output:
-    ansi:
-      enabled: ALWAYS
-      
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8100/eureka/
-
-info:
-  name: DaoService
-
-logging:
-  file: logfile/dao.log
+  jersey:
+    type: servlet
