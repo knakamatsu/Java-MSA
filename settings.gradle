@@ -1,1 +1,1 @@
-include 'discovery', 'admin', 'gw', 'contents', 'frontend', 'dao', 'APIexample'
+include 'dao'
