@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dao.Counter;
-import com.domain.CounterService;
+import com.dao.Users;
+import com.domain.UsersService;
 
 @RestController
 @RequestMapping("/counter")
-public class CounterController {
+public class Controller {
 
 	@Autowired
-	CounterService service;
+	UsersService service;
 
 	// 一覧表示
 	@RequestMapping(value="/selectall", method=RequestMethod.GET)
-	public List<Counter> counterSelectAll() {
+	public List<Users> counterSelectAll() {
 		return service.selectAll();
 	}
 }

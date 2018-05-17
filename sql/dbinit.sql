@@ -1,13 +1,14 @@
-CREATE DATABASE sbdb;
+CREATE DATABASE msa;
  
-CREATE TABLE counter1 (
+CREATE TABLE usermanagement.users (
 id SERIAL PRIMARY KEY
-, title VARCHAR(16)
-, count INT);
+, name VARCHAR
+, address VARCHAR
+, phonenumber VARCHAR
+);
  
-INSERT INTO counter1 VALUES
- (0,'all',0)
- , (1,'select',0)
- , (2,'update',0)
- , (3,'delete',0);
- 
+INSERT INTO usermanagement.users ( name, address, phonenumber ) VALUES
+ ('KeiNakamatsu','和歌山県田辺市どこか','09011003300')
+ , ('EmiNakamatsu','和歌山県田辺市どっか','090888888')
+ , ('OrenoTastuya','ここではないどこか','98309')
+;

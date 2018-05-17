@@ -7,17 +7,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dao.Counter;
-import com.dao.CounterRepository;
+import com.dao.Users;
+import com.dao.UsersRepository;
 
 @Service
 @Transactional
-public class CounterService {
+public class UsersService {
 
   @Autowired
-  CounterRepository repository;
+  UsersRepository repository;
 
-  public List<Counter> selectAll() {
+  public List<Users> selectAll() {
     return repository.findAll(new Sort(Sort.Direction.ASC, "id"));
   }
 
