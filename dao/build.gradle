@@ -12,7 +12,6 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 
 jar {
@@ -27,12 +26,17 @@ repositories {
     mavenCentral()
 }
 
-// tag::deps[]
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-aop")
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.glassfish.jersey.ext:jersey-spring3:2.11")
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+  compile('org.springframework.boot:spring-boot-starter-web')
+  compile('org.springframework.boot:spring-boot-starter-data-jpa')
+  runtime('org.postgresql:postgresql')
+  testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-// end::deps[]
+
+
+eclipse {
+  classpath {
+     containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+     containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+  }
+}

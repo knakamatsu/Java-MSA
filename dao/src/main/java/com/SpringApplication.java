@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2016 the original author or authors.
+ * Copyright 2012-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package rest.resources;
+package com;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-import org.springframework.stereotype.Component;
+@SpringBootApplication
+public class SpringApplication extends SpringBootServletInitializer {
 
-import rest.services.Service;
-
-@Component
-@Path("/hello")
-public class Endpoint {
-
-	private final Service service;
-
-	public Endpoint(Service service) {
-		this.service = service;
-	}
-
-	@GET
-	public String message() {
-		return "Hello " + this.service.message();
+	public static void main(String[] args) {
+		new SpringApplication()
+				.configure(new SpringApplicationBuilder(SpringApplication.class))
+				.run(args);
 	}
 
 }

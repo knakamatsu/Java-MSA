@@ -1,5 +1,12 @@
-server:
-  servlet-path: /s
 spring:
-  jersey:
-    type: servlet
+  datasource:
+    url:  jdbc:postgresql://localhost/sbdb
+    username: postgres
+    password: password
+    driverClassName: org.postgresql.Driver
+
+# server:
+#   servlet-path: /s
+# spring:
+#   jersey:
+#     type: servlet
