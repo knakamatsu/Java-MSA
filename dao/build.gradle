@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.4.4.RELEASE'
+		springBootVersion = '1.4.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -27,13 +27,20 @@ repositories {
 }
 
 dependencies {
-  compile('org.springframework.boot:spring-boot-starter-web')
-  compile('org.springframework.boot:spring-boot-starter-data-jpa')
-  compile("org.springframework.boot:spring-boot-devtools")
-  runtime('org.postgresql:postgresql')
-  testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile("org.springframework.boot:spring-boot-devtools")
+	runtime('org.postgresql:postgresql')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Camden.SR3"
+	}
+}
 
 eclipse {
   classpath {
