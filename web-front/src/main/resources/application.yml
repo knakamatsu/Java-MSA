@@ -3,6 +3,17 @@ server:
   servlet:
     context-path: /
 
+spring:
+  application:
+    name: BFF-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8090/eureka
+zuul:
+  ignored-services: '*'
+  routes:
+    backend-service: 'api/**'
 security:
   oauth2:
     client:

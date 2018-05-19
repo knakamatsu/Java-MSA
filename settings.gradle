@@ -1,1 +1,1 @@
-include 'dao', 'fileManager', 'auth', 'discovery'
+include 'web-front', 'dao', 'fileManager', 'discovery'
