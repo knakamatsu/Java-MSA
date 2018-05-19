@@ -18,30 +18,14 @@ package com;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 
 @SpringBootApplication
-@EnableAuthorizationServer
-@EnableResourceServer
-public class Application extends AuthorizationServerConfigurerAdapter {
-
+//@EnableWebSecurity
+@EnableOAuth2Sso
+public class Application {
     public static void main(String[] args) {
-    	SpringApplication.run(Application.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
-    @Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("demo").secret("demo").scopes("read", "write")
-                .authorizedGrantTypes("authorization_code")
-                .redirectUris("http://localhost:8080", "http://oauth-callback.com");
-    }
-
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.allowFormAuthenticationForClients();
-    }
 }

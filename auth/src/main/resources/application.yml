@@ -1,11 +1,18 @@
-security:
-  user:
-    password: mypassword
-
 server:
-  port: 18080
-  context-path: /myprovider
+  port: 8080
+  servlet:
+    context-path: /demo
 
-logging:
-  level:
-    root: DEBUG
+security:
+  oauth2:
+    client:
+      client-id: example # (1)
+      client-secret: example
+      access-token-uri: https://github.com/login/oauth/access_token # (2)
+      user-authorization-uri: https://github.com/login/oauth/authorize
+      client-authentication-scheme: form # (3)
+    resource:
+      user-info-uri: https://api.github.com/user # (4)
+      prefer-token-info: false
+    sso:
+      login-path: /login # (5)
