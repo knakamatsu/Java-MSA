@@ -1,0 +1,11 @@
+security:
+  user:
+    password: mypassword
+
+server:
+  port: 18080
+  context-path: /myprovider
+
+logging:
+  level:
+    root: DEBUG
