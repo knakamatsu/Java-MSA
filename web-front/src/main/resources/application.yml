@@ -13,7 +13,7 @@ eureka:
 zuul:
   ignored-services: '*'
   routes:
-    backend-service: 'api/**'
+    s3filemanagement-service: 'api/**'
 security:
   oauth2:
     client:
@@ -27,3 +27,12 @@ security:
       prefer-token-info: false
     sso:
       login-path: /user
+
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
