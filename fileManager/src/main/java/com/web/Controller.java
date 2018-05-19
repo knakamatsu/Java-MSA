@@ -30,6 +30,23 @@ public class Controller {
 	private ResourceLoader resourceLoader;
 	@Autowired
 	private S3config s3config;
+	@Autowired
+	private ResourcePatternResolver resolver;
+
+	@RequestMapping(method=RequestMethod.GET)
+	public String files() throws IOException {
+		Resource[] resources = this.resolver.getResources("s3://"+s3config.getBucketname()+"/**/*");
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < resources.length; i++) {
+			if (i!=0) {
+				builder.append(", ");
+			}
+			builder.append(resources[i].toString());
+		}
+
+		return builder.toString();
+	}
+
 
 	@RequestMapping(value="/download", method=RequestMethod.GET)
 	public void download(@RequestParam String filename) throws IOException {
@@ -70,9 +87,6 @@ public class Controller {
 			}
 		}
 	}
-
-	@Autowired
-	private ResourcePatternResolver resolver;
 
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String search() throws IOException {
