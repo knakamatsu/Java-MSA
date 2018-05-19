@@ -1,3 +1,6 @@
+server:
+  port: 8083
+
 cloud.aws:
   credentials:
     accessKey: ${AWS_ACCESS_KEY_ID}

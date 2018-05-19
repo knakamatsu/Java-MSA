@@ -5,8 +5,5 @@ spring:
     password: password
     driverClassName: org.postgresql.Driver
 
-# server:
-#   servlet-path: /s
-# spring:
-#   jersey:
-#     type: servlet
+server:
+  port: 8082
