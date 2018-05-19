@@ -1,1 +1,1 @@
-include 'dao'
+include 'dao', 'fileManager', 'auth'

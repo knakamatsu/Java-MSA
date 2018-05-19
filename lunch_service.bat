@@ -1,0 +1,1 @@
+./gradlew bootRun --parallel --max-workers=5
