@@ -15,16 +15,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.WritableResource;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.config.S3config;
 
-@RestController
-@RequestMapping("/s3")
-public class Controller {
+@Service
+public class S3Service {
 
 	@Autowired
 	private ResourceLoader resourceLoader;
@@ -33,8 +29,7 @@ public class Controller {
 	@Autowired
 	private ResourcePatternResolver resolver;
 
-	@RequestMapping(method=RequestMethod.GET)
-	public String files() throws IOException {
+	public String getFileList() throws IOException {
 		Resource[] resources = this.resolver.getResources("s3://"+s3config.getBucketname()+"/**/*");
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < resources.length; i++) {
@@ -43,33 +38,27 @@ public class Controller {
 			}
 			builder.append(resources[i].toString());
 		}
-
 		return builder.toString();
 	}
 
 
-	@RequestMapping(value="/download", method=RequestMethod.GET)
-	public void download(@RequestParam String filename) throws IOException {
+	public void download(String filename) throws IOException {
 		Resource resource = this.resourceLoader.getResource("s3://"+s3config.getBucketname()+"/" + filename);
-		InputStream input = resource.getInputStream();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-		String str = new String();
-		StringBuilder builder = new StringBuilder();
-		while ((str = reader.readLine()) != null) {
-			builder.append(str);
-		};
-
-		File file = new File("./download.txt");
-		FileWriter writer = new FileWriter(file);
-		writer.write(builder.toString());
-
-		writer.close();
-		reader.close();
-		input.close();
+		try ( InputStream input = resource.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(input)); ){
+			String str = new String();
+			StringBuilder builder = new StringBuilder();
+			while ((str = reader.readLine()) != null) {
+				builder.append(str);
+			};
+			File file = new File("./download.txt");
+			try ( FileWriter writer = new FileWriter(file); ){
+				writer.write(builder.toString());
+			}
+		}
 	}
 
-	@RequestMapping(value="/upload", method=RequestMethod.GET)
-	public void upload(@RequestParam String filename) throws IOException {
+	public void upload(String filename) throws IOException {
 		File file = new File("アップロードするファイルのディレクトリ" + filename);
 		FileInputStream input = new FileInputStream(file);
 
@@ -88,7 +77,6 @@ public class Controller {
 		}
 	}
 
-	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String search() throws IOException {
 		Resource[] resources = this.resolver.getResources("s3://"+s3config.getBucketname()+"/**/*.txt");
 		StringBuilder builder = new StringBuilder();
