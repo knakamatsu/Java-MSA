@@ -13,14 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.rules.AbstractController;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ControllerTest extends AbstractController {
-
-//	@Autowired
-//	private MockMvc mvc;
 
 	@MockBean
 	private UserService userService;
