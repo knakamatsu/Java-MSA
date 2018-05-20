@@ -3,6 +3,18 @@ server:
   servlet:
     context-path: /
 
+spring:
+  application:
+    name: BFF-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8090/eureka
+zuul:
+  ignored-services: '*'
+  routes:
+    s3filemanagement-service: 'api/**'
+    dao-service: 'api-dao/**'
 security:
   oauth2:
     client:
@@ -16,3 +28,12 @@ security:
       prefer-token-info: false
     sso:
       login-path: /user
+
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
