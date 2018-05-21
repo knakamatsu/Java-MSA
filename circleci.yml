@@ -5,15 +5,17 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
 
     steps:
+      - run: chmod +x ./gradlew
+
       - run:
           name: Set up database
           command: sudo psql -p 5432 -F 'sql\dbinit.sql'
       - run: 
           name: Execute testing
-          command: gradle test
+          command: gradlew test
       - run: 
           name: Summarize test result
-          command: gradle testReport
+          command: gradlew testReport
       
       - store_test_results:
           path: build\reports\allTests
