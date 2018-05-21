@@ -2,12 +2,10 @@ machine:
   java:
     version: openjdk8
 
-checkout:
-  post:
-    - chmod +x ./gradlew
-    - sudo psql -p 5432 -F 'sql\dbinit.sql'
-
 dependencies:
+  pre:
+    - chmod -x ./gradlew
+    - psql -p 5432 -F 'sql\dbinit.sql'
   override:
     - ./gradlew -v
     - ./gradlew testClasses
