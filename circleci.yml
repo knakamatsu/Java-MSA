@@ -5,7 +5,7 @@ jobs:
       - image: circleci/openjdk:8-jdk-browsers
 
     steps:
-      - run: chmod +x ./gradlew
+      - run: sudo chmod +x ./gradlew
 
       - run:
           name: Set up database
