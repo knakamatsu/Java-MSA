@@ -41,4 +41,9 @@ public class S3Controller {
 	public void upload(@RequestParam MultipartFile multipartFile,@RequestParam Optional<String> uploadDir) throws IOException {
 		service.upload(multipartFile, uploadDir);
 	}
+
+	@RequestMapping(value="/delete", method=RequestMethod.DELETE)
+	public void delete(@RequestParam String filepath) throws IOException {
+		service.delete(filepath);
+	}
 }

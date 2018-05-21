@@ -56,4 +56,8 @@ public class S3Service {
 		.collect(Collectors.toList());
 		return pathList;
 	}
+
+	public void delete(String filepath) throws IOException {
+		operator.delete(filepath);
+	}
 }

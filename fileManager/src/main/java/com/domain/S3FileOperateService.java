@@ -94,4 +94,8 @@ public class S3FileOperateService {
 		transferManager.upload(s3config.getBucketname(), uploadKey,toUploadFile);
 	}
 
+	public void delete(String filepath) {
+		this.amazonS3.deleteObject(s3config.getBucketname(), filepath);
+	}
+
 }
