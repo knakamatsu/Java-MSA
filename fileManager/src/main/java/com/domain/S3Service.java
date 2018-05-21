@@ -4,6 +4,7 @@ package com.domain;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.util.IOUtils;
 import com.model.S3File;
@@ -42,60 +44,16 @@ public class S3Service {
 		return new ResponseEntity<>(bytes , headers, HttpStatus.OK );
 	}
 
-	//Todo
-//	public String upload(MultipartFile multipartFile, String fileType) throws IOException {
-//		// ファイルが空の場合は異常終了
-//		if(multipartFile.isEmpty()){
-//			// 異常終了時の処理
-//		}
-//
-//		// ファイル種類から決まる値をセットする
-//		StringBuffer filePath = new StringBuffer("/uploadfile")
-//				.append(File.separator).append(fileType);   //ファイルパス
-//
-//		// アップロードファイルを格納するディレクトリを作成する
-//		File uploadDir = mkdirs(filePath);
-//
-//		try {
-//			// アップロードファイルを置く
-//			File uploadFile = new File(uploadDir.getPath() + "/" + fileType);
-//			byte[] bytes = multipartFile.getBytes();
-//			BufferedOutputStream uploadFileStream =
-//					new BufferedOutputStream(new FileOutputStream(uploadFile));
-//			uploadFileStream.write(bytes);
-//			uploadFileStream.close();
-//
-//			return "You successfully uploaded.";
-//		} catch (Exception e) {
-//			// 異常終了時の処理
-//			return "You successfully uploaded.";
-//		} catch (Throwable t) {
-//			// 異常終了時の処理
-//			return "You successfully uploaded.";
-//		}
-//	}
-//
-//	/**
-//	 * アップロードファイルを格納するディレクトリを作成する
-//	 *
-//	 * @param filePath
-//	 * @return
-//	 */
-//	private File mkdirs(StringBuffer filePath){
-//		Date now = new Date();
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-//		File uploadDir = new File(filePath.toString(), sdf.format(now));
-//		// 既に存在する場合はプレフィックスをつける
-//		int prefix = 0;
-//		while(uploadDir.exists()){
-//			prefix++;
-//			uploadDir = new File(filePath.toString() + sdf.format(now) + "-" + String.valueOf(prefix));
-//		}
-//
-//		// フォルダ作成
-//		uploadDir.mkdirs();
-//
-//		return uploadDir;
-//	}
+	public void upload(MultipartFile multipartFile, Optional<String> uploadDir) throws IOException {
+		operator.uploadToS3(multipartFile, uploadDir);
+	}
 
+	public List<String> getPathList(Optional<String> searchText) throws IOException {
+		Resource[] resources = operator.getS3Resources(searchText);
+		List<S3File> fileList = operator.resourcesConvrtToS3(resources);
+		List<String> pathList = fileList.stream()
+		.map(f -> f.getDownloadPath())
+		.collect(Collectors.toList());
+		return pathList;
+	}
 }

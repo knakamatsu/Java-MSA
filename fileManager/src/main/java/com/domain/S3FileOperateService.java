@@ -1,5 +1,6 @@
 package com.domain;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,7 +15,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.transfer.TransferManager;
 import com.config.S3config;
 import com.model.S3File;
 
@@ -24,11 +28,15 @@ public class S3FileOperateService {
 	private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
 	@Autowired
-	private ResourceLoader resourceLoader;
-	@Autowired
 	private S3config s3config;
 	@Autowired
+	private NormallyFileOperateService fileService;
+	@Autowired
+	private ResourceLoader resourceLoader;
+	@Autowired
 	private ResourcePatternResolver resolver;
+	@Autowired
+	private AmazonS3 amazonS3;
 
 	public Resource[] getS3Resources(Optional<String> searchText) throws IOException{
 		String searchFile =  searchText.orElse("*");
@@ -36,7 +44,9 @@ public class S3FileOperateService {
 	}
 
 	public Resource getS3Resource(String filename) throws IOException{
-		return this.resourceLoader.getResource("s3://"+s3config.getBucketname()+"/" + filename);
+		String objKey = filename.startsWith("/") ? filename : "/" + filename;
+		String resourceKey = "s3://" + s3config.getBucketname() + objKey;
+		return this.resourceLoader.getResource(resourceKey);
 	}
 
 	public List<S3File>  resourcesConvrtToS3(Resource[] resources) throws IOException{
@@ -63,4 +73,25 @@ public class S3FileOperateService {
 		f.setLastUpdated(sdf.format(new Date(r.lastModified()))); // UNIX時間からの変換
 		return f;
 	}
+
+	public void uploadToS3(MultipartFile multipartFile, Optional<String> uploadDir) throws IOException {
+		File toUploadFile = fileService.parseMultipartToFile(multipartFile);
+
+		String uploadKey = uploadDir
+				.map(s -> {
+					String sResult;
+					if(s.endsWith("/")){
+						sResult = s + toUploadFile.getName();
+					} else {
+						sResult = s + "/" + toUploadFile.getName();
+					}
+					return sResult;
+				})
+				.orElse(toUploadFile.getName());
+
+
+		TransferManager transferManager = new TransferManager(this.amazonS3);
+		transferManager.upload(s3config.getBucketname(), uploadKey,toUploadFile);
+	}
+
 }
