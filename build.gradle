@@ -1,0 +1,13 @@
+subprojects {
+    apply plugin: 'java'
+
+    test {
+        reports.html.enabled = false
+    }
+}
+
+
+task testReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/allTests")
+    reportOn subprojects.tasks.test
+}
