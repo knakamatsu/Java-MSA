@@ -1,22 +1,13 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/openjdk:8-jdk-browsers
+machine:
+  java:
+    version: openjdk8
 
-    steps:
-      - run: sudo chmod +x ./gradlew
+checkout:
+  post:
+    - chmod +x ./gradlew
+    - sudo psql -p 5432 -F 'sql\dbinit.sql'
 
-      - run:
-          name: Set up database
-          command: sudo psql -p 5432 -F 'sql\dbinit.sql'
-      - run: 
-          name: Execute testing
-          command: gradlew test
-      - run: 
-          name: Summarize test result
-          command: gradlew testReport
-      
-      - store_test_results:
-          path: build\reports\allTests
-      
+dependencies:
+  override:
+    - ./gradlew -v
+    - ./gradlew testClasses
