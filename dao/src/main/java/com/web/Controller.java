@@ -11,14 +11,14 @@ import com.dao.Users;
 import com.domain.UsersService;
 
 @RestController
-@RequestMapping("/counter")
+@RequestMapping("/user")
 public class Controller {
 
 	@Autowired
 	UsersService service;
 
 	// 一覧表示
-	@RequestMapping(value="/selectall", method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public List<Users> counterSelectAll() {
 		return service.selectAll();
 	}
