@@ -40,7 +40,7 @@ public class S3FileOperateService {
 
 	public Resource[] getS3Resources(Optional<String> searchText) throws IOException{
 		String searchFile =  searchText.orElse("*");
-		return this.resolver.getResources("s3://"+s3config.getBucketname()+"/**/" + searchFile + "*");
+		return this.resolver.getResources("s3://"+s3config.getBucketname()+"/**/*" + searchFile + "*");
 	}
 
 	public Resource getS3Resource(String filename) throws IOException{
