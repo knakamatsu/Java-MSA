@@ -24,3 +24,5 @@ security:
     resource:
       user-info-uri: https://api.github.com/user
       prefer-token-info: false
+  basic:
+    enabled: false
