@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,10 +49,6 @@ public class S3FileOperateService {
 	}
 
 	public List<S3File>  resourcesConvrtToS3(Resource[] resources) throws IOException{
-		return resourcesConvrtToS3(Arrays.asList(resources));
-	}
-
-	public List<S3File>  resourcesConvrtToS3(List<Resource> resources) throws IOException{
 		List<S3File> fileList = new ArrayList<>();
 		for(Resource r : resources){
 			S3File f = resourceConvrtToS3(r);
@@ -89,13 +84,15 @@ public class S3FileOperateService {
 				})
 				.orElse(toUploadFile.getName());
 
-
-		TransferManager transferManager = new TransferManager(this.amazonS3);
-		transferManager.upload(s3config.getBucketname(), uploadKey,toUploadFile);
+		getTransferManager().upload(s3config.getBucketname(), uploadKey,toUploadFile);
 	}
 
 	public void delete(String filepath) {
 		this.amazonS3.deleteObject(s3config.getBucketname(), filepath);
+	}
+
+	TransferManager getTransferManager(){
+		return new TransferManager(this.amazonS3);
 	}
 
 }
