@@ -30,7 +30,5 @@ security:
     resource:
       user-info-uri: https://api.github.com/user
       prefer-token-info: false
-
-  user:
-   name: admin
-   password: password
+  basic:
+    enabled: false

@@ -1,0 +1,2 @@
+security:
+  ignored: /** # 開発中はOAuth認証をオフに出来るようにしておく
