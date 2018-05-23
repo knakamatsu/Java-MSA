@@ -52,8 +52,8 @@ public class S3Service {
 		Resource[] resources = operator.getS3Resources(searchText);
 		List<S3File> fileList = operator.resourcesConvrtToS3(resources);
 		List<String> pathList = fileList.stream()
-		.map(f -> f.getDownloadPath())
-		.collect(Collectors.toList());
+				.map(f -> f.getDownloadPath())
+				.collect(Collectors.toList());
 		return pathList;
 	}
 
